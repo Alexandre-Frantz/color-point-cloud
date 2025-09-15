@@ -1,11 +1,11 @@
 <launch>
     <arg name="timeout_sec" default="0.1"/>
     <arg name="point_cloud_topic" default="/leo04/livox/lidar"/>
-    <arg name="point_cloud_frame_id" default="livox_frame"/>
+    <arg name="point_cloud_frame_id" default="leo04/livox_frame"/>
     <arg name="camera_topics"
-         default="[/leo04/realsense_d455,]"/>
+	    default="[/leo04/realsense_camera_leo04/realsense_camera_leo04/color]"/>
     <arg name="image_type" default="0" description="0:RAW, 1:RECTIFIED"/>
-    <arg name="image_topic_last_name" default="/camera_raw"/>
+    <arg name="image_topic_last_name" default="/image_raw"/>
     <arg name="camera_info_topic_last_name" default="/camera_info"/>
 
     <node pkg="color_point_cloud" exec="color_point_cloud" name="color_point_cloud" output="screen">

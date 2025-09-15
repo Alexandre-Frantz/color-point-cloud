@@ -45,8 +45,33 @@ namespace color_point_cloud {
 //                    RCLCPP_ERROR(this->get_logger(), "cv_bridge exception: %s", e.what());
                     return;
                 }
-                cv::undistort(cv_ptr->image, cv_image_, get_camera_matrix_cv(),
-                              get_distortion_matrix_cv());
+
+		std::cout << "image size: " << cv_ptr->image.cols << "x" << cv_ptr->image.rows << std::endl;
+		std::cout << "camera info width/height: " << get_camera_info()->width << "x" << get_camera_info()->height << std::endl;
+		std::cout << "image type: " << cv_ptr->image.type() << std::endl;
+		std::cout << "cv_image size: " << cv_ptr->image.cols << "x" << cv_ptr->image.rows << std::endl;
+std::cout << "camera_matrix_cv_: " << camera_matrix_cv_.size() << std::endl;
+std::cout << "distortion_matrix_cv_: " << distortion_matrix_cv_.size() << std::endl;
+
+// NEW
+if (cv_ptr->image.cols != get_camera_info()->width ||
+    cv_ptr->image.rows != get_camera_info()->height) {
+    std::cout << "resizing..." << std::endl;
+
+    	cv::Mat resized;
+    cv::resize(cv_ptr->image, resized,
+               cv::Size(get_camera_info()->width, get_camera_info()->height));
+
+    cv::undistort(resized, cv_image_, get_camera_matrix_cv(),
+                  get_distortion_matrix_cv());
+} else {
+	std::cout << "NOT RESIZING" << std::endl; 
+     	cv::undistort(cv_ptr->image, cv_image_, get_camera_matrix_cv(),
+                  get_distortion_matrix_cv());
+}
+// ORIGINAL
+//		cv::undistort(cv_ptr->image, cv_image_, get_camera_matrix_cv(),
+//                              get_distortion_matrix_cv());
             } else if (image_type == ImageType::RECTIFIED) {
                 try {
                     cv_ptr = cv_bridge::toCvShare(msg, get_image_msg()->encoding);
@@ -126,7 +151,8 @@ namespace color_point_cloud {
             distortion_matrix_(0, 2) = msg->d[3];
             distortion_matrix_(0, 3) = msg->d[4];
             distortion_matrix_(0, 4) = msg->d[2];
-
+		
+	    // before it was [0], [1],[3],[4],[2]
             distortion_matrix_cv_ = (cv::Mat_<double>(1, 5) << msg->d[0], msg->d[1], msg->d[3], msg->d[4], msg->d[2]);
 
             is_info_initialized_ = true;

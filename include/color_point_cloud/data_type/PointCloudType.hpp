@@ -15,7 +15,7 @@ namespace pc2_combiner
         float y;
         float z;
         float intensity;
-        unsigned short ring;
+//        unsigned short ring; // Removed
 
         void transform(const geometry_msgs::msg::TransformStamped& t_transform)
         {
@@ -58,7 +58,7 @@ namespace pc2_combiner
                 , m_iter_y{ m_pointcloud2, "y" }
                 , m_iter_z{ m_pointcloud2, "z" }
                 , m_iter_intensity{ m_pointcloud2, "intensity" }
-                , m_iter_ring{ m_pointcloud2, "ring" }
+                //, m_iter_ring{ m_pointcloud2, "ring" } // removed
         {
         }
 
@@ -79,7 +79,7 @@ namespace pc2_combiner
          */
         Point getCurrentPoint() const
         {
-            const Point point{ *m_iter_x, *m_iter_y, *m_iter_z, *m_iter_intensity, *m_iter_ring };
+            const Point point{ *m_iter_x, *m_iter_y, *m_iter_z, *m_iter_intensity}; //, *m_iter_ring }; // Removed
             return point;
         }
 
@@ -96,7 +96,7 @@ namespace pc2_combiner
                 ++m_iter_y;
                 ++m_iter_z;
                 ++m_iter_intensity;
-                ++m_iter_ring;
+                // ++m_iter_ring; // Removed
             }
         }
 
@@ -120,7 +120,7 @@ namespace pc2_combiner
         sensor_msgs::PointCloud2ConstIterator<float> m_iter_y;
         sensor_msgs::PointCloud2ConstIterator<float> m_iter_z;
         sensor_msgs::PointCloud2ConstIterator<float> m_iter_intensity;
-        sensor_msgs::PointCloud2ConstIterator<unsigned short> m_iter_ring;
+        // sensor_msgs::PointCloud2ConstIterator<unsigned short> m_iter_ring; // Removed
     };
 
 /**
@@ -160,8 +160,8 @@ namespace pc2_combiner
          */
         Point getCurrentPoint() const
         {
-            const Point point{ *(*m_iter_x), *(*m_iter_y), *(*m_iter_z), *(*m_iter_intensity),
-                               *(*m_iter_ring) };
+            const Point point{ *(*m_iter_x), *(*m_iter_y), *(*m_iter_z), *(*m_iter_intensity)};//,
+                               // *(*m_iter_ring) };
             return point;
         }
 
@@ -177,7 +177,7 @@ namespace pc2_combiner
                 ++*(m_iter_y);
                 ++*(m_iter_z);
                 ++*(m_iter_intensity);
-                ++*(m_iter_ring);
+                // ++*(m_iter_ring); // Removed
             }
         }
 
@@ -195,14 +195,14 @@ namespace pc2_combiner
             modifier.setPointCloud2Fields(5, "x", 1, sensor_msgs::msg::PointField::FLOAT32, "y", 1,
                                           sensor_msgs::msg::PointField::FLOAT32, "z", 1,
                                           sensor_msgs::msg::PointField::FLOAT32, "intensity", 1,
-                                          sensor_msgs::msg::PointField::FLOAT32, "ring", 1,
-                                          sensor_msgs::msg::PointField::UINT16);
+                                          sensor_msgs::msg::PointField::FLOAT32); //, "ring", 1,
+                                          //sensor_msgs::msg::PointField::UINT16);
 
             m_iter_x.emplace(m_pointcloud2, "x");
             m_iter_y.emplace(m_pointcloud2, "y");
             m_iter_z.emplace(m_pointcloud2, "z");
             m_iter_intensity.emplace(m_pointcloud2, "intensity");
-            m_iter_ring.emplace(m_pointcloud2, "ring");
+            // m_iter_ring.emplace(m_pointcloud2, "ring");
 
             m_pointcloud2.header.frame_id = "base_link";
         }
@@ -218,7 +218,7 @@ namespace pc2_combiner
             *(*m_iter_y) = t_point.y;
             *(*m_iter_z) = t_point.z;
             *(*m_iter_intensity) = t_point.intensity;
-            *(*m_iter_ring) = t_point.ring;
+            //*(*m_iter_ring) = t_point.ring;
         }
 
         void append(const Point& t_point)
@@ -242,7 +242,7 @@ namespace pc2_combiner
         std::optional<sensor_msgs::PointCloud2Iterator<float>> m_iter_y;
         std::optional<sensor_msgs::PointCloud2Iterator<float>> m_iter_z;
         std::optional<sensor_msgs::PointCloud2Iterator<float>> m_iter_intensity;
-        std::optional<sensor_msgs::PointCloud2Iterator<unsigned short>> m_iter_ring;
+        // std::optional<sensor_msgs::PointCloud2Iterator<unsigned short>> m_iter_ring;
     };
 
 }  // namespace pc2_combiner

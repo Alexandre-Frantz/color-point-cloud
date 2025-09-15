@@ -198,9 +198,9 @@ void ColorPointCloud::point_cloud_callback(
               pair.second->get_lidar_to_camera_projection_matrix() * point4d;
 
           Eigen::Matrix4d T_lidar_camera;
-          T_lidar_camera <<  0.000,  0.000,  1.000,  0.112,
-                             -1.000,  0.000,  0.000,  0.058,
-                             0.000, -1.000,  0.000, -0.041,
+          T_lidar_camera <<  0.004,  0.001,  1.000,  0.092,
+                             -1.000,  -0.004,  0.004,  -0.001,
+                             0.004, -1.000,  0.001, -0.039,
                              0,         0,          0,           1;
 
           //std::cout << "T_lidar_camera.inverse() " << T_lidar_camera.inverse()  << std::endl;                          
@@ -225,6 +225,11 @@ void ColorPointCloud::point_cloud_callback(
             iter_z[0] = point.z;
             // iter_ring[0] = point.ring;
             // iter_intensity[0] = point.intensity;
+	    
+            // If outside CAM FoV set color to Black
+	    iter_r[0] = 0;
+	    iter_g[0] = 0;
+	    iter_b[0] = 0;
 
           } else {
             cv::Vec3d color =
