@@ -1,5 +1,23 @@
 <launch>
     <arg name="timeout_sec" default="0.1"/>
+<<<<<<< HEAD
+    <arg name="point_cloud_topic" default="/leo04/livox/lidar"/>
+    <arg name="point_cloud_frame_id" default="livox_frame"/>
+=======
+<<<<<<< HEAD
+    <arg name="point_cloud_topic" default="/sensing/lidar/top/pointcloud_raw"/>
+    <arg name="point_cloud_frame_id" default="rs_helios_top"/>
+>>>>>>> 9115dfa (Initial commit with my changes)
+    <arg name="camera_topics"
+         default="[/leo04/realsense_d455,]"/>
+    <arg name="image_type" default="0" description="0:RAW, 1:RECTIFIED"/>
+<<<<<<< HEAD
+    <arg name="image_topic_last_name" default="/camera_raw"/>
+    <arg name="camera_info_topic_last_name" default="/camera_info"/>
+=======
+    <arg name="image_topic_last_name" default="image_raw"/>
+    <arg name="camera_info_topic_last_name" default="camera_info"/>
+=======
     <arg name="point_cloud_topic" default="/leo04/livox/lidar"/>
     <arg name="point_cloud_frame_id" default="livox_frame"/>
     <arg name="camera_topics"
@@ -7,6 +25,8 @@
     <arg name="image_type" default="0" description="0:RAW, 1:RECTIFIED"/>
     <arg name="image_topic_last_name" default="/camera_raw"/>
     <arg name="camera_info_topic_last_name" default="/camera_info"/>
+>>>>>>> 7345d07 (Initial commit with my changes)
+>>>>>>> 9115dfa (Initial commit with my changes)
 
     <node pkg="color_point_cloud" exec="color_point_cloud" name="color_point_cloud" output="screen">
         <param name="timeout_sec" value="$(var timeout_sec)"/>
@@ -16,5 +36,12 @@
         <param name="image_type" value="$(var image_type)"/>
         <param name="image_topic_last_name" value="$(var image_topic_last_name)"/>
         <param name="camera_info_topic_last_name" value="$(var camera_info_topic_last_name)"/>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+        <param from="$(var param_file)"/>
+=======
+>>>>>>> 7345d07 (Initial commit with my changes)
+>>>>>>> 9115dfa (Initial commit with my changes)
     </node>
 </launch>
