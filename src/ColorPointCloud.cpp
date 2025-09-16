@@ -218,7 +218,7 @@ void ColorPointCloud::point_cloud_callback(
 
           if (x < 0 || x > pair.second->get_image_width() || y < 0 ||
               y > pair.second->get_image_height() ||
-              pt_camera.head<3>().normalized().z() < 0.41) {
+              pt_camera.head<3>().normalized().z() < 0.707) { // 0.41 before. Changed to 0.707 to match vertical FoV of camera. Remove haloing of points from edges of RGB image
 
             iter_x[0] = point.x;
             iter_y[0] = point.y;
