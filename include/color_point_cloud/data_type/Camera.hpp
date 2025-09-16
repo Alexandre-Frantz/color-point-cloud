@@ -66,8 +66,19 @@ if (cv_ptr->image.cols != get_camera_info()->width ||
                   get_distortion_matrix_cv());
 } else {
 	std::cout << "NOT RESIZING" << std::endl; 
-     	cv::undistort(cv_ptr->image, cv_image_, get_camera_matrix_cv(),
-                  get_distortion_matrix_cv());
+        
+	// resize camera matrix to match new dimensions of undistorted image	
+	cv::Mat new_camera_matrix = cv::getOptimalNewCameraMatrix(
+    	get_camera_matrix_cv(),
+    	get_distortion_matrix_cv(),
+    	cv_image_.size(),  // size of undistorted image
+    	0                 // alpha = 0 keeps all pixels, no black borders
+	);
+	
+	//cv::undistort(cv_ptr->image, cv_image_, get_camera_matrix_cv(),
+        //          get_distortion_matrix_cv());
+	cv::undistort(cv_ptr->image, cv_image_, get_camera_matrix_cv(),
+                  get_distortion_matrix_cv(), new_camera_matrix);
 }
 // ORIGINAL
 //		cv::undistort(cv_ptr->image, cv_image_, get_camera_matrix_cv(),
